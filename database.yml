@@ -1,0 +1,16 @@
+development: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  database: imager_dev
+  username: root
+  password: <%=ENV['mysql_root_passwd']||'root'%>
+  socket: /var/run/mysqld/mysqld.sock
+
+test:     # internal
+  <<: *default
+  database: imager_test
+
+production:     # internal
+  <<: *default
+  database: imager

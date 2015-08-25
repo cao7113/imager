@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+Bundler.require(:console) if defined?(Bundler)
+require 'pry'
+
+require_relative '../boot'
+
+Pry.start # load .pryrc here
