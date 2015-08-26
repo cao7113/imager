@@ -1,4 +1,4 @@
-# Note: borrowed from ActionDispatch::Http::UploadedFile
+# NOTE: borrowed from ActionDispatch::Http::UploadedFile
 #
 # Models uploaded files.
 #

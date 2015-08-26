@@ -1,4 +1,3 @@
-require 'byebug'
 require 'rack/test'
 require 'factory_girl'
 

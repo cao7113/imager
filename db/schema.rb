@@ -14,7 +14,6 @@
 ActiveRecord::Schema.define(version: 20150825143831) do
 
   create_table "topics", force: :cascade do |t|
-    t.string   "raw_path",   limit: 255
     t.string   "image",      limit: 255
     t.string   "md5",        limit: 255
     t.text     "info",       limit: 65535

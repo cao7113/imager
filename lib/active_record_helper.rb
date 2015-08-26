@@ -6,10 +6,10 @@ module ActiveRecordHelper
 
   extend self
 
-  def app_root
-    return @_app_root if @_app_root
+  def db_app_root
+    return @_db_app_root if @_db_app_root
     raise 'not setup env APP_ROOT' unless ENV['APP_ROOT']
-    @_app_root ||= Pathname.new(ENV['APP_ROOT']).expand_path 
+    @_db_app_root ||= Pathname.new(ENV['APP_ROOT']).expand_path 
   end
 
   def db_env
@@ -18,15 +18,15 @@ module ActiveRecordHelper
 
   def db_conf_file
     return @_conf_file if @_conf_file
-    file = app_root.join 'database.yml' 
+    file = db_app_root.join 'database.yml' 
     return @_conf_file = file if file.exist?
-    file = app_root.join 'config/database.yml' 
+    file = db_app_root.join 'config/database.yml' 
     return @_conf_file = file if file.exist?
     raise 'Not found db conf file in [config/]database.yml'
   end
 
   def db_path
-    app_root.join('db')
+    db_app_root.join('db')
   end
 
   def db_confs
@@ -47,19 +47,19 @@ module ActiveRecordHelper
   end
 
   def enable_active_record_logger(path=nil)
-    path ||= app_root.join('log/ar.log')
+    path ||= db_app_root.join('log/ar.log')
     ActiveRecord::Base.logger = Logger.new(path)
   end
 
   def conf_active_record_tasks
     ar_tasks = ActiveRecord::Tasks::DatabaseTasks
-    ar_tasks.root = app_root
+    ar_tasks.root = db_app_root
     ar_tasks.database_configuration = db_confs
     ar_tasks.env = db_env
     ar_tasks.db_dir = db_path
     ar_tasks.migrations_paths = [db_path.join('migrate')]
     ar_tasks.seed_loader = Seeder.new db_path.join('seeds.rb')
-    ar_tasks.fixtures_path = app_root.join 'test/fixtures', db_env
+    ar_tasks.fixtures_path = db_app_root.join 'test/fixtures', db_env
   end
 
   class Seeder
