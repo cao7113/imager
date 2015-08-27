@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+ENV['APP_ENV'] ||= 'production'
+require_relative '../boot'
+
+path = ARGV.first
+
+abort "No path" unless path
+path = File.expand_path(path)
+abort "Not exist" unless File.exist? path
+
+topic = Topic.create(image: File.open(path), info: {path: ARGV.first})
+
+puts topic.path

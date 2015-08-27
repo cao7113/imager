@@ -35,6 +35,15 @@ module AppHelper
       yield
     end
   end
+
+  def has_env? key, ignorecase=true
+    key = key.to_s
+    if ignorecase
+      ENV.has_key?(key.upcase) or ENV.has_key?(key.downcase)
+    else
+      ENV.has_key?(key)
+    end
+  end
 end
 
 include AppHelper

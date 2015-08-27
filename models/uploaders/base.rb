@@ -4,9 +4,11 @@ module Uploaders
 
     storage :file   
     move_to_store true
+    move_to_cache true
 
     def md5
-      return model.md5 if model.respond_to?(:md5) and model.send(:md5)
+      return @md5 if @md5
+      return @md5 = model.md5 if model.respond_to?(:md5) and model.md5
       chunk = model.send(mounted_as)
       @md5 ||= Digest::MD5.hexdigest(chunk.read.to_s)
     end
@@ -24,15 +26,18 @@ module Uploaders
     #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
     # end
 
-    # Process files as they are uploaded:
-    #process :scale => [20, 20]
+    #process :scale => [20, 20] #default
+
     #def scale(width, height)
       #resize_to_fit width, height
     #end
 
-    # Create different versions of your uploaded files:
     version :mini do 
       process :resize_to_fit => [50, 50]
+    end
+
+    version :m100 do #medium
+      process :resize_to_fit => [100, 100]
     end
 
     def extension_white_list

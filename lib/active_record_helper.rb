@@ -46,8 +46,12 @@ module ActiveRecordHelper
     connect_active_record
   end
 
+  def current_db_name(model=ActiveRecord::Base)
+    model.connection.current_database
+  end
+
   def enable_active_record_logger(path=nil)
-    path ||= db_app_root.join('log/ar.log')
+    path ||= STDOUT
     ActiveRecord::Base.logger = Logger.new(path)
   end
 

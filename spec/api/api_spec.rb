@@ -5,7 +5,7 @@ describe 'test' do
   end
 
   #it 'ping pong ok' do
-    #get api_v1 << '/ping'
+    #get '/ping'
     #expect(raw_body).to eq 'pong'.to_json
   #end
 
@@ -13,13 +13,13 @@ describe 'test' do
     #attrs = {
       #image: Rack::Test::UploadedFile.new('data/test.jpg')
     #}
-    #post api_v1 << '/upload', attrs
+    #post '/upload', attrs
     #puts resp_body.inspect
     #expect(resp_status).to eq 201
   #end
 
   it 'upload a chinese named file' do
-    post api_v1 << '/upload', image: Rack::Test::UploadedFile.new('data/中文文件.jpg')
+    post '/upload', image: Rack::Test::UploadedFile.new('data/中文文件.jpg')
     puts resp_body.inspect
     expect(resp_status).to eq 201
   end

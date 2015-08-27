@@ -5,4 +5,8 @@ require 'pry'
 
 require_relative '../boot'
 
+t = Topic.last
+puts t.inspect
+
 Pry.start # load .pryrc here
+

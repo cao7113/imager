@@ -3,8 +3,6 @@ require 'lib/uploaded_file'
 
 module Imager
   class API < Grape::API
-
-    version :v1, using: :path
     format :json
 
     get :ping do
