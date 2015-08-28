@@ -1,3 +1,4 @@
+require 'byebug'
 require 'rack/test'
 require 'factory_girl'
 require 'carrierwave'
@@ -20,11 +21,10 @@ if has_env?(:debug)
   class CarrierWave::Uploader::Base
     module Inspector
 
-      def log tag, msg
+      def log tag, msg=''
         puts "#" * 8 + tag.to_s + "#" * 8
         puts "  input: " << msg
-        puts 
-        puts "  context: " << self.class.name << '  current file: ' << self.file.inspect
+        puts "  context: " << self.class.name << '  current file: ' << "#{self.file.try(:path)}"
       end
 
       def cache!(new_file = sanitized_file)
@@ -33,7 +33,7 @@ if has_env?(:debug)
       end
 
       def process!(new_file=nil)
-        log :process!, new_file ? new_file.inspect : ''
+        log :process! , new_file ? new_file.inspect : ''
         super
       end
 
@@ -41,28 +41,51 @@ if has_env?(:debug)
         log :store!, new_file ? new_file.inspect : ''
         super
       end
+
+      def remove!
+        log :remove!
+        super
+      end
     end # Inspector
 
     include Inspector 
-  end
+  end # Base
+
+  ## debug
+  Uploaders::Base.class_eval <<-Code
+    def manipulate_with_inspect! &block
+      log :manipulate!, '=========='
+      manipulate_without_inspect! &block
+    end
+
+    alias_method_chain :manipulate!, :inspect
+  Code
 
   CarrierWave::SanitizedFile.class_eval <<-Code
     def move_to_with_inspect(new_path, permissions=nil, directory_permissions=nil)
-      puts "--move \#{self.path} --> " << new_path
+      puts "  --!!!MOVE \#{self.path} --> "
+      puts new_path
       move_to_without_inspect new_path, permissions, directory_permissions
     end
+    alias_method_chain :move_to, :inspect
 
     def copy_to_with_inspect(new_path, permissions=nil, directory_permissions=nil)
-      puts "--copy \#{self.path} --> " << new_path
+      puts "  --!!!COPY \#{self.path} --> "
+      puts new_path
       copy_to_without_inspect new_path, permissions, directory_permissions
     end
-
-    alias_method_chain :move_to, :inspect
     alias_method_chain :copy_to, :inspect
+
+    def delete_with_inspect
+      puts "  --!!!DELETE \#{self.path}"
+      delete_without_inspect
+    end
+    alias_method_chain :delete, :inspect
   Code
 end
 
-#DatabaseCleaner.strategy = :transaction #as default, others: transaction, deletion
+#transaction as default, other: truncation , deletion
+DatabaseCleaner.strategy = $cleaner_strategy = :transaction #truncation #deletion 
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|

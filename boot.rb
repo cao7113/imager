@@ -10,6 +10,9 @@ when_not_env :production do
   require 'byebug'
 end
 
+#I18n.locale = :en
+#I18n.load_path << File.join(Gem.loaded_specs['carrierwave'].full_gem_path, "carrierwave", "locale", 'en.yml')
+
 ActiveRecordHelper.set_active_record
 ActiveRecordHelper.enable_active_record_logger
 ActiveRecord::Base.raise_in_transactional_callbacks = true

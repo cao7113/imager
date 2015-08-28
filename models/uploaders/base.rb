@@ -3,8 +3,9 @@ module Uploaders
     include CarrierWave::MiniMagick
 
     storage :file   
+    move_to_cache true 
     move_to_store true
-    move_to_cache true
+    asset_host ENV['ASSET_HOST'] || 'http://localhost:9393'
 
     def md5
       return @md5 if @md5
@@ -32,12 +33,12 @@ module Uploaders
       #resize_to_fit width, height
     #end
 
-    version :mini do 
-      process :resize_to_fit => [50, 50]
+    version :default do 
+      process :resize_to_fit => [100, 100]
     end
 
-    version :m100 do #medium
-      process :resize_to_fit => [100, 100]
+    version :mini do
+      process :resize_to_fit => [50, 50]
     end
 
     def extension_white_list

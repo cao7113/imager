@@ -6,10 +6,9 @@ gem "mini_magick"
 gem 'activerecord'
 gem 'grape'
 
-gem 'thor'
-
 group :development do
   gem 'byebug'
+  gem 'shotgun'
 end
 
 group :test do

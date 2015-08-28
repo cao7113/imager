@@ -3,12 +3,12 @@
 ENV['APP_ENV'] ||= 'production'
 require_relative '../boot'
 
-path = ARGV.first
+path0 = path = ARGV.first
 
 abort "No path" unless path
 path = File.expand_path(path)
 abort "Not exist" unless File.exist? path
 
-topic = Topic.create(image: File.open(path), info: {path: ARGV.first})
+topic = Topic.upload_file path0
 
 puts topic.path
