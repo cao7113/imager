@@ -6,6 +6,8 @@ gem "mini_magick"
 gem 'activerecord'
 gem 'grape'
 
+gem 'sinatra'
+
 group :development do
   gem 'byebug'
   gem 'shotgun'

@@ -20,3 +20,8 @@ How to mount to a host app
 ## todo
 
 quick review page like image feed
+
+## db
+
+重设db环境：drop, create, migrate
+rake db:migrate:reset

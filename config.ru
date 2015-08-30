@@ -2,6 +2,12 @@
 
 require_relative 'boot'
 require_relative 'api/api'
+require_relative 'web'
 
 use ActiveRecord::ConnectionAdapters::ConnectionManagement
-run Imager::API
+
+map '/api' do
+  run Imager::API
+end
+
+run Sinatra::Application

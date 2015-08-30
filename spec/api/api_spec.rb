@@ -16,8 +16,9 @@ describe 'test' do
   end
 
   it 'download and store a remote url' do
-    wb_head_url = 'http://tp4.sinaimg.cn/1809866795/180/5665149016/1'
-    post '/upload', image_url: wb_head_url
+    #net_url = 'http://tp4.sinaimg.cn/1809866795/180/5665149016/1'
+    net_url1 = 'http://img6.cache.netease.com/photo/0001/2015-08-28/B24R21D519BR0001.jpg'
+    post '/upload', image_url: net_url1
     puts resp_body.inspect
     expect(resp_status).to eq 201
   end

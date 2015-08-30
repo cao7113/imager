@@ -27,12 +27,6 @@ module Uploaders
     #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
     # end
 
-    #process :scale => [20, 20] #default
-
-    #def scale(width, height)
-      #resize_to_fit width, height
-    #end
-
     version :default do 
       process :resize_to_fit => [100, 100]
     end

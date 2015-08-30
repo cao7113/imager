@@ -1,0 +1,5 @@
+<% Topic.timeline(params).each do |t|%>
+  <a href='/api/topics/<%=t.id%>' target='_blank'>
+    <image src='<%=t.url%>' title='<%=t.source%>' />
+  </a>
+<%end%>
